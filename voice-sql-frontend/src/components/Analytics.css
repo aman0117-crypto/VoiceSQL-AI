@@ -1,0 +1,1147 @@
+/* =========================================
+   VOICESQL AI - ANALYTICS
+========================================= */
+
+.analytics-page {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+
+  padding: 34px 40px;
+
+  background: var(--bg);
+  color: var(--text);
+
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.analytics-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.analytics-header h1 {
+  margin: 0;
+
+  font-size: 34px;
+  font-weight: 700;
+
+  letter-spacing: -0.6px;
+}
+
+.analytics-header p {
+  margin: 8px 0 0;
+
+  color: var(--muted);
+
+  font-size: 15px;
+}
+
+.analytics-filter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 10px 15px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  color: var(--text);
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.analytics-stats {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 17px;
+
+  margin-bottom: 18px;
+}
+
+.analytics-stat-card {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  min-height: 120px;
+
+  padding: 18px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+
+  border-radius: 13px;
+
+  box-sizing: border-box;
+
+  transition: 0.2s ease;
+}
+
+.analytics-stat-card:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--primary);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.stat-card-icon.purple {
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
+}
+
+.stat-card-icon.green {
+  background: rgba(34, 197, 94, 0.14);
+  color: #22c55e;
+}
+
+.stat-card-icon.red {
+  background: rgba(239, 68, 68, 0.13);
+  color: #ef4444;
+}
+
+
+.analytics-stat-card span {
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  margin-bottom: 5px;
+}
+
+.analytics-stat-card strong {
+  display: block;
+
+  font-size: 27px;
+  line-height: 1;
+
+  margin-bottom: 6px;
+}
+
+.analytics-stat-card small {
+  font-size: 11px;
+
+  color: #6366f1;
+}
+
+.success-text {
+  color: #22c55e !important;
+}
+
+.error-text {
+  color: #ef4444 !important;
+}
+
+.violet-text {
+  color: #a855f7 !important;
+}
+
+
+.analytics-card {
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+
+  border-radius: 14px;
+
+  box-sizing: border-box;
+}
+
+.analytics-card-header {
+  padding: 20px 22px 12px;
+}
+
+.analytics-card-header h2 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.analytics-card-header p {
+  margin: 5px 0 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+
+/* =========================================
+   MIDDLE GRID
+========================================= */
+
+.analytics-middle-grid {
+  display: grid;
+
+  grid-template-columns: 1.45fr 1fr;
+
+  gap: 17px;
+
+  margin-bottom: 17px;
+}
+
+
+/* =========================================
+   QUERY ACTIVITY
+========================================= */
+
+.activity-chart {
+  height: 245px;
+
+  display: flex;
+
+  padding: 10px 20px 0;
+
+  box-sizing: border-box;
+}
+
+.chart-y-axis {
+  width: 28px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 8px 0 28px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  text-align: right;
+}
+
+.chart-area {
+  position: relative;
+
+  flex: 1;
+
+  margin-left: 10px;
+}
+
+.chart-grid-line {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  border-top: 1px dashed var(--line);
+}
+
+.line-20 {
+  top: 8px;
+}
+
+.line-15 {
+  top: 25%;
+}
+
+.line-10 {
+  top: 50%;
+}
+
+.line-5 {
+  top: 75%;
+}
+
+.line-0 {
+  bottom: 28px;
+}
+
+
+.activity-bars {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+
+  padding: 8px 5px 28px;
+
+  box-sizing: border-box;
+}
+
+.activity-column {
+  height: 100%;
+  flex: 1;
+  max-width: 65px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.activity-value {
+  margin-bottom: 5px;
+
+  color: var(--text);
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.activity-bar-wrapper {
+  width: 20px;
+  height: 145px;
+
+  display: flex;
+  align-items: flex-end;
+
+  overflow: hidden;
+
+  border-radius: 6px;
+}
+
+.activity-bars {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+
+  padding: 8px 5px 4px;
+
+  box-sizing: border-box;
+}
+
+.activity-day {
+  margin-top: 8px;
+
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+
+
+/* =========================================
+   ACTIVITY SUMMARY
+========================================= */
+
+.activity-summary {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin: 0 22px 20px;
+
+  padding: 12px;
+
+  background: var(--primary-light);
+
+  border: 1px solid var(--line);
+
+  border-radius: 9px;
+}
+
+.activity-summary-icon {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: rgba(99, 102, 241, 0.15);
+
+  color: #6366f1;
+
+  font-size: 18px;
+}
+
+.activity-summary strong {
+  display: block;
+
+  font-size: 20px;
+}
+
+.activity-summary span {
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   MOST USED TABLES
+========================================= */
+
+.tables-list {
+  padding: 10px 22px 25px;
+}
+
+.table-item {
+  margin-bottom: 21px;
+}
+
+.table-item:last-child {
+  margin-bottom: 0;
+}
+
+.table-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 7px;
+
+  font-size: 12px;
+}
+
+.table-info span {
+  color: var(--text);
+}
+
+.table-info strong {
+  color: var(--muted);
+
+  font-size: 11px;
+
+  font-weight: 500;
+}
+
+.table-progress {
+  width: 100%;
+  height: 6px;
+
+  overflow: hidden;
+
+  background: var(--line);
+
+  border-radius: 10px;
+}
+
+.table-progress-fill {
+  height: 100%;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #4f46e5,
+    #8b5cf6
+  );
+}
+
+
+/* =========================================
+   QUERY COMPLEXITY
+========================================= */
+
+.complexity-card {
+  margin-bottom: 30px;
+}
+
+.complexity-content {
+  display: grid;
+
+  grid-template-columns: 230px 1fr 1fr;
+
+  gap: 25px;
+
+  padding: 8px 22px 25px;
+}
+
+
+/* =========================================
+   QUERY COMPLEXITY DONUT
+========================================= */
+
+.complexity-donut-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.complexity-donut {
+  --simple-angle: 150deg;
+  --medium-angle: 90deg;
+  --complex-angle: 120deg;
+
+  width: 175px;
+  height: 175px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  flex-shrink: 0;
+
+  top: 30px;
+
+  background: conic-gradient(
+    #22c55e 0deg var(--simple-angle),
+    #eab308 var(--simple-angle)
+      calc(var(--simple-angle) + var(--medium-angle)),
+    #ef4444
+      calc(var(--simple-angle) + var(--medium-angle))
+      360deg
+  );
+}
+
+/* Inner hole */
+
+.complexity-donut::before {
+  content: "";
+
+  position: absolute;
+
+  width: 115px;
+  height: 115px;
+
+  border-radius: 50%;
+
+  background: var(--surface);
+
+  z-index: 1;
+}
+
+
+/* Center text */
+
+.donut-center {
+  width: 115px;
+  height: 115px;
+
+  border-radius: 50%;
+
+  background: var(--surface);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  z-index: 2;
+
+  text-align: center;
+}
+
+.donut-center strong {
+  display: block;
+
+  font-size: 32px;
+  font-weight: 700;
+
+  color: var(--text);
+
+  line-height: 1;
+}
+
+.donut-center span {
+  display: block;
+
+  margin-top: 8px;
+
+  font-size: 13px;
+
+  color: var(--muted);
+}
+
+
+/* =========================================
+   COMPLEXITY BREAKDOWN
+========================================= */
+
+.complexity-breakdown {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 18px;
+  transform: translateX(-22px);
+}
+
+.complexity-item {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+/* =========================
+   COMPLEXITY COLORS
+========================= */
+
+.complexity-dot {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  margin-top: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+/* SIMPLE - PURPLE */
+.complexity-dot.simple {
+  background: #22c55e !important;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+/* MEDIUM -   BLUE */
+.complexity-dot.medium {
+  background: #eab308 !important;
+  box-shadow: 0 0 8px rgba(234, 179, 8, 0.5);
+}
+
+/* COMPLEX - RED */
+.complexity-dot.complex {
+  background: #ef4444 !important;
+  box-shadow: 0 0 8px rgba(53, 33, 229, 0.315);
+}
+
+
+.complexity-item:nth-child(1) .complexity-name {
+  color: #22c55e !important;
+}
+
+.complexity-item:nth-child(2) .complexity-name {
+  color: #eab308 !important;
+}
+
+.complexity-item:nth-child(3) .complexity-name {
+  color: #ef4444 !important;
+}
+
+.complexity-info {
+  flex: 1;
+}
+
+.complexity-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.complexity-info p {
+  margin: 4px 0 0;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  line-height: 1.5;
+}
+
+.complexity-number {
+  text-align: right;
+}
+
+.complexity-number strong {
+  display: block;
+
+  font-size: 16px;
+}
+
+.complexity-number span {
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   COMPLEXITY GUIDE
+========================================= */
+
+.complexity-guide {
+  padding: 17px;
+
+  background: var(--primary-light);
+
+  border: 1px solid var(--line);
+
+  border-radius: 10px;
+}
+
+.complexity-guide h3 {
+  margin: 0 0 16px;
+
+  font-size: 14px;
+}
+
+.guide-item {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+.guide-item:last-child {
+  margin-bottom: 0;
+}
+
+.guide-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-size: 14px;
+}
+
+.guide-item.simple .guide-icon {
+  color: #22c55e;
+
+  border: 1px solid #22c55e;
+}
+
+.guide-item.medium .guide-icon {
+  color: #eab308;
+
+  border: 1px solid #eab308;
+}
+
+.guide-item.complex .guide-icon {
+  color: #ef4444;
+
+  border: 1px solid #ef4444;
+}
+
+.guide-item strong {
+  display: block;
+
+  font-size: 12px;
+}
+
+.guide-item.simple strong {
+  color: #22c55e;
+}
+
+.guide-item.medium strong {
+  color: #eab308;
+}
+
+.guide-item.complex strong {
+  color: #ef4444;
+}
+
+.guide-item p {
+  margin: 3px 0 0;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark .analytics-stat-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+
+  .analytics-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .complexity-content {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .complexity-guide {
+    grid-column: 1 / -1;
+  }
+}
+
+
+@media (max-width: 900px) {
+
+  .analytics-page {
+    padding: 26px 24px;
+  }
+
+  .analytics-middle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .complexity-content {
+    grid-template-columns: 1fr;
+  }
+
+  .complexity-donut-section {
+    padding: 15px 0;
+  }
+
+  .complexity-guide {
+    grid-column: auto;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .analytics-page {
+    padding: 20px 16px;
+  }
+
+  .analytics-header {
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .analytics-header h1 {
+    font-size: 28px;
+  }
+
+  .analytics-filter {
+    width: 100%;
+
+    justify-content: space-between;
+
+    box-sizing: border-box;
+  }
+
+  .analytics-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-stat-card {
+    min-height: 100px;
+  }
+
+  .activity-chart {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .complexity-donut {
+    width: 155px;
+    height: 155px;
+  }
+
+  .complexity-donut::before {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* =====================================================
+   QUERY ACTIVITY - PIE CHART
+===================================================== */
+
+.activity-pie-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 55px;
+  padding: 25px 20px 20px;
+}
+
+
+/* =====================================================
+   PIE
+===================================================== */
+
+.activity-pie {
+  position: relative;
+
+  width: 330px;
+  height: 330px;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.08),
+    0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =====================================================
+   PIE SEGMENT BORDERS
+===================================================== */
+
+.activity-pie::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.75);
+}
+
+
+/* =====================================================
+   DAY LABELS
+===================================================== */
+
+.pie-day {
+  position: absolute;
+
+  width: 70px;
+  height: 55px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  text-align: center;
+
+  z-index: 2;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.45);
+}
+
+
+/* =====================================================
+   PIE DAY POSITIONS
+   Each label is positioned at the center of its segment
+===================================================== */
+
+.pie-day-0 {
+  left: 64%;
+  top: 21%;
+}
+
+.pie-day-1 {
+  left: 81%;
+  top: 43%;
+}
+
+.pie-day-2 {
+  left: 75%;
+  top: 70%;
+}
+
+.pie-day-3 {
+  left: 50%;
+  top: 82%;
+}
+
+.pie-day-4 {
+  left: 25%;
+  top: 70%;
+}
+
+.pie-day-5 {
+  left: 19%;
+  top: 43%;
+}
+
+.pie-day-6 {
+  left: 36%;
+  top: 21%;
+}
+
+
+/* =====================================================
+   DAY NAME
+===================================================== */
+
+.pie-day-name {
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  margin-bottom: 4px;
+}
+
+
+/* =====================================================
+   QUERY COUNT
+===================================================== */
+
+.pie-day-count {
+  font-size: 23px;
+
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+
+/* =====================================================
+   LEGEND
+===================================================== */
+
+.activity-pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  min-width: 150px;
+}
+
+.activity-legend-item {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  column-gap: 11px;
+  font-size: 15px;
+
+  /* Light mode */
+  color: #374151;
+}
+
+.activity-legend-item strong {
+  /* Light mode count */
+  color: #111827;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.activity-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+
+.activity-legend-day {
+  font-weight: 600;
+}
+
+.dark .activity-legend-item {
+  color: #c7c9e8;
+}
+
+.dark .activity-legend-item strong {
+  color: #ffffff;
+}
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.activity-summary {
+  margin-top: 20px;
+}
+
+/* =========================================
+   ANALYTICS TYPOGRAPHY PROTECTION
+   Prevent global/auth CSS from overriding
+   Analytics page styles
+   ========================================= */
+
+.analytics-page .analytics-card-header h2 {
+  margin: 0;
+  font-size: 18px !important;
+  font-weight: 650 !important;
+}
+
+.analytics-page .analytics-card-header p {
+  margin: 5px 0 0;
+  font-size: 12px !important;
+}
+
+.analytics-page .complexity-name {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.analytics-page .complexity-info p {
+  margin: 4px 0 0;
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+}
+
+.analytics-page .complexity-number strong {
+  font-size: 16px !important;
+}
+
+.analytics-page .complexity-number span {
+  font-size: 10px !important;
+}
+
+.analytics-page .complexity-guide h3 {
+  margin: 0 0 16px;
+  font-size: 14px !important;
+}
+
+.analytics-page .guide-item strong {
+  font-size: 12px !important;
+}
+
+.analytics-page .guide-item p {
+  margin: 3px 0 0;
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+}
+
+.analytics-page .guide-icon {
+  font-size: 14px !important;
+}
