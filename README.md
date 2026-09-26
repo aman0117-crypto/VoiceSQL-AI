@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&height=200&color=gradient&customColorList=12&text=VoiceSQL%20AI&fontAlign=50&fontAlignY=35&fontSize=42&fontColor=ffffff&animation=fadeIn&desc=An%20AI-powered%20Voice-to-SQL%20Query%20Generator&descAlignY=55&descSize=17" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:0f172a,50:312e81,100:6d28d9&text=VoiceSQL%20AI&fontAlign=50&fontAlignY=35&fontSize=42&fontColor=ffffff&animation=fadeIn&desc=An%20AI-powered%20Voice-to-SQL%20Query%20Generator&descAlignY=55&descSize=17" width="100%"/>
 </div>
 
 ## 📌 Overview
@@ -440,6 +440,6 @@ This project is developed as an academic project.
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=120&color=gradient&customColorList=12&section=footer" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&height=140&color=0:0f172a,50:312e81,100:6d28d9&section=footer" width="100%"/>
 
 </div>
