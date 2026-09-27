@@ -110,9 +110,35 @@ const Dashboard = ({fullWidth = false,active,}) => {
     fetchHistory();
   }
 }, [token]);
+
+
+const [dbName, setDbName] = useState("VOICE_SQL_DB");
+useEffect(() => {
+  const fetchDatabaseInfo = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/database-info`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.name) {
+        setDbName(data.name);
+      }
+    } catch {
+      // keep the fallback name if the backend is unreachable
+    }
+  };
+
+  if (token) {
+    fetchDatabaseInfo();
+  }
+}, [token]);
   
 
-  const loadHistory = async () => {
+const loadHistory = async () => {
     try {
       const res = await fetch(`${API_BASE}/history`, {
       headers: {
@@ -228,7 +254,7 @@ const Dashboard = ({fullWidth = false,active,}) => {
           <p>Ask anything from your database using natural language or voice.</p>
         </div>
         <div className="dash-header-actions">
-          <div className="db-pill">🗄️VOICE_SQL_DB</div>
+          <div className="db-pill">🗄️{dbName.toUpperCase()}</div>
           <button className="logout-btn" onClick={handleLogout}>
           <FiLogOut size={16} />
             <span>Logout</span>

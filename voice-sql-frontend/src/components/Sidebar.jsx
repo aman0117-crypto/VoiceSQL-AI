@@ -57,15 +57,22 @@ const Sidebar = ({
 
       {/* Brand */}
       <div className="sidebar-brand">
-        <span className="brand-icon">🎙️</span>
+        <button
+          className="brand-clickable"
+          onClick={() => onNavigate("dashboard")}
+          aria-label="Go to Dashboard"
+          title="Go to Dashboard"
+        >
+          <span className="brand-icon">🎙️</span>
 
-        <div>
-          <div className="brand-title">VoiceSQL AI</div>
+          <div>
+            <div className="brand-title">VoiceSQL AI</div>
 
-          <div className="brand-subtitle">
-            Talk · Query · Get Results
+            <div className="brand-subtitle">
+              Talk · Query · Get Results
+            </div>
           </div>
-        </div>
+        </button>
 
         <button
           className="sidebar-toggle-btn"
