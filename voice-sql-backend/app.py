@@ -470,6 +470,14 @@ def analytics():
         ), 500
 
 
+@app.route("/api/database-info", methods=["GET"])
+@require_auth
+def database_info():
+    try:
+        return jsonify(db.get_database_info())
+    except Exception as e:
+        return jsonify({"type": "Unknown", "name": "Unknown", "connected": False, "error": str(e)}), 500
+
 
 @app.route("/api/health", methods=["GET"])
 def health():
@@ -479,6 +487,5 @@ def health():
 if __name__ == "__main__":
     db.init_history_table()
     app.run(port=5000, debug=True)
-    
     
     

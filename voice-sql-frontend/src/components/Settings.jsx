@@ -1,7 +1,59 @@
-import "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext.jsx";
 import "./Settings.css";
 
+const API_BASE = "http://localhost:5000/api";
+
 const Settings = ({ darkMode }) => {
+  const { token } = useAuth();
+
+  const [dbInfo, setDbInfo] = useState({
+    type: "Loading...",
+    name: "Loading...",
+    connected: false,
+  });
+  const [dbLoading, setDbLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDatabaseInfo = async () => {
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/database-info`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          setDbInfo({
+            type: data.type,
+            name: data.name,
+            connected: data.connected,
+          });
+        } else {
+          setDbInfo({
+            type: "Unknown",
+            name: "Unknown",
+            connected: false,
+          });
+        }
+      } catch {
+        setDbInfo({
+          type: "Unreachable",
+          name: "Unreachable",
+          connected: false,
+        });
+      } finally {
+        setDbLoading(false);
+      }
+    };
+
+    fetchDatabaseInfo();
+  }, [token]);
+
   return (
     <div className="settings-page">
 
@@ -67,20 +119,35 @@ const Settings = ({ darkMode }) => {
 
         <div className="settings-row">
           <span>Database Type</span>
-          <span className="settings-value">PostgreSQL</span>
+          <span className="settings-value">
+            {dbLoading ? "Loading..." : dbInfo.type}
+          </span>
         </div>
 
         <div className="settings-row">
           <span>Database Name</span>
-          <span className="settings-value">VOICE_SQL_DB</span>
+          <span className="settings-value">
+            {dbLoading ? "Loading..." : dbInfo.name}
+          </span>
         </div>
 
         <div className="settings-row">
           <span>Status</span>
 
           <span className="database-status">
-            <span className="status-dot"></span>
-            <span>Connected</span>
+            <span
+              className="status-dot"
+              style={{
+                background: dbInfo.connected ? "#22c55e" : "#ef4444",
+              }}
+            ></span>
+            <span>
+              {dbLoading
+                ? "Checking..."
+                : dbInfo.connected
+                ? "Connected"
+                : "Disconnected"}
+            </span>
           </span>
         </div>
       </div>
@@ -109,19 +176,6 @@ const Settings = ({ darkMode }) => {
           <span className="enabled-badge">Enabled</span>
         </div>
       </div>
-
-      {/* Information */}
-      <div className="settings-info">
-        <span>ⓘ</span>
-
-        <div>
-          <strong>VoiceSQL AI Preferences</strong>
-          <p>
-            These settings are configured for your VoiceSQL AI application.
-          </p>
-        </div>
-      </div>
-
     </div>
   );
 };

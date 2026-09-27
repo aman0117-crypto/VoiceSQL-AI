@@ -2,11 +2,20 @@ import os
 import re
 from datetime import datetime, date
 from decimal import Decimal
+from urllib.parse import urlparse
 
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
+
+DB_TYPE_MAP = {
+    "postgres": "PostgreSQL",
+    "postgresql": "PostgreSQL",
+    "mysql": "MySQL",
+    "mysql+pymysql": "MySQL",
+    "sqlite": "SQLite",
+}
 
 
 def get_connection():
@@ -15,6 +24,25 @@ def get_connection():
             "DATABASE_URL is not set. Copy .env.example to .env and fill in your PostgreSQL connection string."
         )
     return psycopg2.connect(DATABASE_URL)
+
+
+def get_database_info():
+    if not DATABASE_URL:
+        return {"type": "Not configured", "name": "N/A", "connected": False}
+
+    parsed = urlparse(DATABASE_URL)
+    scheme = (parsed.scheme or "").split("+")[0].lower()
+    db_type = DB_TYPE_MAP.get(parsed.scheme.lower(), DB_TYPE_MAP.get(scheme, scheme.upper() or "Unknown"))
+    db_name = parsed.path.lstrip("/") or "N/A"
+
+    try:
+        conn = get_connection()
+        conn.close()
+        connected = True
+    except Exception:
+        connected = False
+
+    return {"type": db_type, "name": db_name, "connected": connected}
 
 
 def get_user_by_email(email):
@@ -179,6 +207,7 @@ def init_history_table():
                 """
                 CREATE TABLE IF NOT EXISTS query_history (
                     id SERIAL PRIMARY KEY,
+                    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                     question TEXT NOT NULL,
                     sql TEXT NOT NULL,
                     row_count INTEGER NOT NULL DEFAULT 0,
