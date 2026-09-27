@@ -75,6 +75,7 @@ VoiceSQL-AI/
 │
 ├── .gitignore
 ├── README.md
+├── schema.sql
 ├── package.json
 └── package-lock.json
 ```
@@ -142,12 +143,16 @@ Make sure the following are installed on your system:
 - PostgreSQL
 - Git
 
+#
+
 ### 1. Clone the Repository
 `git clone https://github.com/aman0117-crypto/VoiceSQL-AI.git`
 
 Navigate into the project directory:
 
 `cd VoiceSQL-AI`
+
+#
 
 ### 2. Backend Setup
 
@@ -173,6 +178,8 @@ Install the required Python dependencies:
 
 `pip install -r requirements.txt`
 
+#
+
 ### 3. Configure Backend Environment Variables
 
 Create a `.env` file inside the voice-sql-backend directory.
@@ -189,17 +196,32 @@ GOOGLE_CLIENT_ID=
 
 Add your own configuration values to the `.env` file.
 
+#
+
 ### 4. Configure PostgreSQL
 
 Make sure PostgreSQL is installed and running.
 
-Create the database required by the application and configure the database connection using the DATABASE_URL environment variable.
+Create a new, empty database, then set `DATABASE_URL` in your `.env` to point to it.
 
 Example:
 
-```DATABASE_URL=your_database_connection_string```
+```DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/database_name```
 
-The exact database configuration may depend on your local PostgreSQL setup.
+Then run the schema file at the project root to set up the required tables
+(`users`, `query_history`) plus sample data (`department`, `employees`) so
+you can test queries right away:
+
+```psql "your_database_url_here" -f schema.sql```
+
+If you don't have `psql` available, open the file in pgAdmin's Query Tool
+(connected to your new database) and run it there instead.
+
+>`users` and `query_history` are reserved for the app itself — don't rename or remove them.
+
+> Feel free to remove the sample `department`/`employees` data afterward and replace it with your own tables.
+
+#
 
 ### 5. Start the Backend
 
@@ -208,6 +230,8 @@ From the voice-sql-backend directory, run:
 ```python app.py```
 
 The Flask backend will start on the configured local port.
+
+#
 
 ### 6. Frontend Setup
 
@@ -225,6 +249,8 @@ Install the required dependencies:
 
 ```npm install```
 
+#
+
 ### 7. Configure Frontend Environment Variables
 
 Create a .env file inside the voice-sql-frontend directory.
@@ -234,6 +260,8 @@ Use the provided .env.example file as a reference:
 ```VITE_GOOGLE_CLIENT_ID=```
 
 Add your Google OAuth client ID.
+
+#
 
 ### 8. Start the Frontend
 
