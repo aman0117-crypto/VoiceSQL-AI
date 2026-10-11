@@ -17,11 +17,10 @@ build/
 .env.*
 !.env.example
 
-# =========================
-# Python
-# =========================
+# Python cache and compiled files
 __pycache__/
 *.py[cod]
+*.pyo
 
 # Virtual environment
 venv/

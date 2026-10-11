@@ -15,7 +15,7 @@ const faqs = [
   {
     question: "Which databases are supported?",
     answer:
-      "The application currently supports the database configured in your project. PostgreSQL can be used with the current VoiceSQL AI setup."
+      "The application supports the relational databases such as PostgreSQL, Oracle and mySQL can be used with the current VoiceSQL AI setup."
   },
   {
     question: "Where can I see previous queries?",

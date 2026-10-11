@@ -3,8 +3,9 @@ import { useAuth } from "../context/AuthContext.jsx";
 const NAV_ITEMS = [
   { key: "dashboard", label: "Dashboard", icon: "🏠" },
   { key: "new-query", label: "New Query", icon: "🎙️" },
+  { key: "database", label: "Database Explorer", icon: "🗄️" },
+  { key: "connect-database", label: "Connect Database", icon: "🔌" },
   { key: "history", label: "Query History", icon: "🕒" },
-  { key: "database", label: "Database", icon: "🗄️" },
   { key: "analytics", label: "Analytics", icon: "📊" },
   { key: "settings", label: "Settings", icon: "⚙️" },
   { key: "help", label: "Help", icon: "❓" },

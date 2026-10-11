@@ -31,13 +31,27 @@ export function AuthProvider({ children }) {
     setUser(userData);
   };
 
-  const logout = () => {
+ const logout = async () => {
+  try {
+    if (token) {
+      await fetch("http://localhost:5000/api/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Logout request failed:", error);
+  } finally {
     sessionStorage.removeItem("voice_sql_token");
     sessionStorage.removeItem("voice_sql_user");
 
     setToken(null);
     setUser(null);
-  };
+  }
+};
+
 
   const isAuthenticated = Boolean(token);
 

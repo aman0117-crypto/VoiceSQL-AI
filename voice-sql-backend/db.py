@@ -498,25 +498,11 @@ def get_analytics(user_id):
 
             history_rows = cur.fetchall()
 
-            # -----------------------------
-            # Actual database tables
-            # -----------------------------
-            cur.execute(
-                """
-                SELECT table_name
-                FROM information_schema.tables
-                WHERE table_schema = 'public'
-                  AND LOWER(table_name) <> 'query_history'
-                ORDER BY table_name
-                """
-            )
-
-            table_rows = cur.fetchall()
+            
 
     finally:
         conn.close()
 
-    actual_tables = [row[0] for row in table_rows]
 
     # =====================================================
     # Query Activity
@@ -551,40 +537,48 @@ def get_analytics(user_id):
     # =====================================================
     # Most Used Tables
     # =====================================================
+        table_usage = {}
 
-    table_usage = {
-        table_name: 0
-        for table_name in actual_tables
-    }
+        for _, sql, _, _ in history_rows:
 
-    for _, sql, _, _ in history_rows:
+            if not sql:
+                continue
 
-        sql_upper = sql.upper()
+            # Find tables used after FROM or JOIN.
+            matches = re.findall(
+                r"\b(?:FROM|JOIN)\s+"
+                r'(?:"([^"]+)"|([A-Za-z_][A-Za-z0-9_$]*))',
+                sql,
+                re.IGNORECASE,
+            )
 
-        for table_name in actual_tables:
+            for quoted_table, normal_table in matches:
 
-            pattern = r"\b" + re.escape(
-                table_name.upper()
-            ) + r"\b"
+                table_name = quoted_table or normal_table
 
-            if re.search(pattern, sql_upper):
-                table_usage[table_name] += 1
+                if not table_name:
+                    continue
 
-    most_used_tables = [
-        {
-            "name": table_name,
-            "queries": count,
-        }
-        for table_name, count in table_usage.items()
-        if count > 0
-    ]
+                table_name = table_name.strip()
 
-    most_used_tables.sort(
-        key=lambda item: item["queries"],
-        reverse=True
-    )
+                table_usage[table_name] = (
+                    table_usage.get(table_name, 0) + 1
+                )
 
-    most_used_tables = most_used_tables[:5]
+        most_used_tables = [
+            {
+                "name": table_name,
+                "queries": count,
+            }
+            for table_name, count in table_usage.items()
+        ]
+
+        most_used_tables.sort(
+            key=lambda item: item["queries"],
+            reverse=True
+        )
+
+        most_used_tables = most_used_tables[:5]
 
     # =====================================================
     # Query Complexity Analysis

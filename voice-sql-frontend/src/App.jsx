@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import QueryHistory from "./components/QueryHistory";
 import Database from "./components/Database";
+import ConnectDatabase from "./components/ConnectDatabase";
 import Analytics from "./components/Analytics";
 import Settings from "./components/Settings";
 import Help from "./components/Help";
@@ -68,6 +69,8 @@ function App() {
         <main className="main-content">
           {active === "database" ? (
             <Database />
+          ) : active === "connect-database" ? (
+            <ConnectDatabase />
           ) : active === "help" ? (
             <Help />
           ) : active === "history" ? (
@@ -80,6 +83,7 @@ function App() {
             <Dashboard
               fullWidth={!sidebarOpen}
               active={active}
+              onNavigate={setActive}
             />
           )}
         </main>

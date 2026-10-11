@@ -208,9 +208,78 @@ body.dark {
 .dash-header h1 { font-size: 24px; margin: 0 0 4px; }
 .dash-header p { margin: 0; color: var(--muted); }
 .dash-header-actions { display: flex; align-items: center; gap: 12px; }
-.db-pill{
-  display: flex; align-items: center;gap: 8px;font-weight: 600;background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  padding: 5px 16px; font-size: 14px; cursor: pointer;
+
+.db-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 37px;
+  padding: 0 16px;
+
+  background-color: var(--surface);
+  color: var(--text);
+
+  border: 1px solid var(--line);
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1;
+
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.db-add-button {
+  height: 37px;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background-color: var(--surface);
+  color: var(--text);
+
+  border: 1px solid var(--line);
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1;
+
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.db-add-button:hover {
+  background-color: #ede9fe;
+}
+
+.db-add-button:active {
+  transform: scale(0.99);
+}
+
+.db-add-icon {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+body.dark .db-add-button {
+  background-color: var(--surface);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+body.dark .db-add-button:hover {
+  background-color: #2a2638;
+  color: var(--text);
 }
 
 .dash-header-actions {
@@ -224,7 +293,7 @@ body.dark {
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background-color: var(--surface);;
+  background-color: var(--surface);
   color:var(--text);
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -634,6 +703,35 @@ th { color: var(--muted); font-weight: 600; }
   margin-top: 20px;
 
   font-size: 14px;
+}
+
+/* =========================================================
+   DATABASE - NO CONNECTION / NO TABLES
+   ========================================================= */
+
+.database-no-tables {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.database-no-tables-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.database-no-tables h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.database-no-tables p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+body.dark .database-no-tables p {
+  color: #9ca3af;
 }
 
 /* Responsive */

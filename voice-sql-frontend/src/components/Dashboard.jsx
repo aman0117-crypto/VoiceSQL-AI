@@ -35,7 +35,7 @@ const useTypewriter = (text, speed = 100) => {
 };
 
 
-const Dashboard = ({fullWidth = false,active,}) => {
+const Dashboard = ({fullWidth = false,active,onNavigate,}) => {
   const { token,user,logout } = useAuth();
   const formatName = (name) => {
     return name
@@ -112,7 +112,8 @@ const Dashboard = ({fullWidth = false,active,}) => {
 }, [token]);
 
 
-const [dbName, setDbName] = useState("VOICE_SQL_DB");
+const [dbName, setDbName] = useState("No database connected");
+const [dbConnected, setDbConnected] = useState(false);
 useEffect(() => {
   const fetchDatabaseInfo = async () => {
     try {
@@ -124,11 +125,13 @@ useEffect(() => {
 
       const data = await res.json();
 
-      if (res.ok && data.name) {
-        setDbName(data.name);
+      if (res.ok) {
+        setDbName(data.name || "No database connected");
+        setDbConnected(Boolean(data.connected));
       }
     } catch {
-      // keep the fallback name if the backend is unreachable
+       setDbName("No database connected");
+      setDbConnected(false);
     }
   };
 
@@ -241,10 +244,54 @@ const loadHistory = async () => {
     }
   };
 
-  // Find the first numeric column for the mini bar chart, and a label column (first text column)
-  const numericCol = columns.find((c) => rows.length > 0 && typeof rows[0][c] === "number");
-  const labelCol = columns.find((c) => c !== numericCol && rows.length > 0 && typeof rows[0][c] !== "number") || columns[0];
-  const maxVal = numericCol ? Math.max(...rows.map((r) => Number(r[numericCol]) || 0)) : 0;
+    // Find the first numeric column for the mini bar chart
+    const numericColIndex = columns.findIndex((column, index) => {
+      return (
+        rows.length > 0 &&
+        rows.some((row) => {
+          const value = row[index];
+
+          return (
+            typeof value === "number" ||
+            (value !== null &&
+              value !== "" &&
+              !isNaN(Number(value)))
+          );
+        })
+      );
+    });
+
+    const numericCol =
+      numericColIndex !== -1
+        ? columns[numericColIndex]
+        : null;
+
+    // Find a label column (prefer a non-numeric column)
+    const labelColIndex = columns.findIndex((column, index) => {
+      return index !== numericColIndex &&
+        rows.length > 0 &&
+        rows.some((row) => {
+          const value = row[index];
+
+          return (
+            value !== null &&
+            value !== "" &&
+            isNaN(Number(value))
+          );
+        });
+    });
+
+    const labelColIndexFinal =
+      labelColIndex !== -1 ? labelColIndex : 0;
+
+    const maxVal =
+      numericColIndex !== -1
+        ? Math.max(
+            ...rows.map(
+              (row) => Number(row[numericColIndex]) || 0
+            )
+          )
+        : 0;
 
   return (
     <main className={`dashboard ${fullWidth ? "dashboard-full" : ""}`}>
@@ -254,7 +301,19 @@ const loadHistory = async () => {
           <p>Ask anything from your database using natural language or voice.</p>
         </div>
         <div className="dash-header-actions">
-          <div className="db-pill">🗄️{dbName.toUpperCase()}</div>
+          {dbConnected ? (
+        <div className="db-pill">
+          🗄️ {dbName}
+        </div>
+      ) : (
+        <button
+          className="db-pill db-add-button"
+          onClick={() => onNavigate("connect-database")}
+        >
+          <span className="db-add-icon">+</span>
+          Add Database
+        </button>
+      )}
           <button className="logout-btn" onClick={handleLogout}>
           <FiLogOut size={16} />
             <span>Logout</span>
@@ -314,7 +373,7 @@ const loadHistory = async () => {
 
       {error && <div className="error-banner">⚠️ {error}</div>}
 
-      <section className={`results-grid ${rows.length > 6 ? "visualization-expanded" : ""}`}>
+      <section className={`results-grid ${rows.length > 3 ? "visualization-expanded" : ""}`}>
         <div className="panel">
           <div className="panel-header">
             <span>{"</>"} Generated SQL</span>
@@ -345,7 +404,7 @@ const loadHistory = async () => {
               <tbody>
                 {rows.map((row, i) => (
                   <tr key={i}>
-                    {columns.map((c) => <td key={c}>{String(row[c])}</td>)}
+                    {columns.map((c) => <td key={c}>{String(row[columns.indexOf(c)])}</td>)}
                   </tr>
                 ))}
                 {rows.length === 0 && (
@@ -367,12 +426,24 @@ const loadHistory = async () => {
               <div className="bars">
                 {rows.map((row, i) => (
                   <div className="bar-col" key={i}>
-                    <div className="bar-value">{row[numericCol]}</div>
-                    <div
-                      className="bar"
-                      style={{ height: `${(Number(row[numericCol]) / maxVal) * 100}%` }}
-                    ></div>
-                    <div className="bar-label">{String(row[labelCol]).split(" ")[0]}</div>
+                    <div className="bar-value">
+                        {row[numericColIndex]}
+                      </div>
+
+                      <div
+                        className="bar"
+                        style={{
+                          height: `${
+                            maxVal > 0
+                              ? (Number(row[numericColIndex]) / maxVal) * 100
+                              : 0
+                          }%`,
+                        }}
+                      ></div>
+
+                      <div className="bar-label">
+                        {String(row[labelColIndexFinal]).split(" ")[0]}
+                      </div>
                   </div>
                 ))}
               </div>
